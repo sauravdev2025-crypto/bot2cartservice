@@ -1,8 +1,0 @@
-export enum ActionTypeEnum {
-  TEXT = 1120,
-  ASSIGN_TO_USER = 1121,
-  SEND_TEMPLATE_MESSAGE = 1122,
-  SEND_DOCUMENT = 1123,
-  SEND_IMAGE = 1124,
-  CHATBOT = 1125,
-}

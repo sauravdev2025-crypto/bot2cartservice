@@ -1,3 +1,1 @@
-export enum BulkUploadTypeEnum {
-  CONTACT = 1,
-}
+export enum BulkUploadTypeEnum {}

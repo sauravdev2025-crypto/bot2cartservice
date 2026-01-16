@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Hash, OperationException } from '@servicelabsco/nestjs-utility-services';
 
-import { ExternalCreateBusinessDto } from '../../external/dtos/external.create.business.dto';
 import { CommunicationUserEntity } from '../../utility/entities/communication.user.entity';
 import { BusinessService } from '../../utility/services/business.service';
 import { CreatePartnerBusinessDto } from '../dtos/create.partner.business.dto';
@@ -40,7 +39,7 @@ export class PartnerBusinessService {
     return business.save();
   }
 
-  async createGetUser(createBusinessDto: ExternalCreateBusinessDto) {
+  async createGetUser(createBusinessDto: CreatePartnerBusinessDto) {
     const user = await CommunicationUserEntity.firstOrNew({ email: createBusinessDto.owner_email });
 
     if (!user?.name) user.name = createBusinessDto?.owner_name;

@@ -8,21 +8,18 @@ import {
   ListingService,
   ProcessDbFind,
 } from '@servicelabsco/slabs-access-manager';
-import { SystemRolesConstants } from '../constants/system.roles.constants';
 import { AddAssigneePayloadDto } from '../dtos/add.assignee.payload.dto';
 import { BusinessUserListFilterDto } from '../dtos/business.user.list.filter.dto';
 import { CommunicationBusinessUserEntity } from '../entities/communication.business.user.entity';
 import { ProcessBusinessUserList } from '../libraries/process.business.user.list';
 import { BusinessAccessService } from '../services/business.access.service';
-import { BusinessUserService } from '../services/business.user.service';
 
 @Controller('api/b/business-user')
 export class BusinessUserController {
   constructor(
     private readonly businessAccessService: BusinessAccessService,
     private readonly listingService: ListingService,
-    private readonly sqlService: SqlService,
-    private readonly businessUserService: BusinessUserService
+    private readonly sqlService: SqlService
   ) {}
 
   @Post('search')
@@ -106,24 +103,21 @@ export class BusinessUserController {
     if (!businessU) throw new OperationException('Invalid businessU');
     if (businessU.business.owner_id === businessU.user_id) throw new OperationException('Owner of the business cannot be Edited');
 
-    const myRole = await this.businessAccessService.getMyGroupRole(business.id);
-    if (myRole.name === SystemRolesConstants.CHAT_AGENT) throw new OperationException('You are not allowed for this operation');
-
     businessU.manager_id = body.assignee_id;
     return businessU.save();
   }
 
   @Post(':id/activate')
   async activate(@Param() params: BusinessParamDto) {
-    return this.handleContactStatus(true, params.id);
+    return this.handleStatus(true, params.id);
   }
 
   @Post(':id/deactivate')
   async deactivate(@Param() params: BusinessParamDto) {
-    return this.handleContactStatus(false, params.id);
+    return this.handleStatus(false, params.id);
   }
 
-  async handleContactStatus(status: boolean, id: number) {
+  async handleStatus(status: boolean, id: number) {
     const business = await this.businessAccessService.validateAccess();
 
     const r = await BusinessUserEntity.findOne({

@@ -34,7 +34,6 @@ import { IdentifierSerialJob } from './jobs/identifier.serial.job';
 import { LocalCommentJob } from './jobs/local.comment.job';
 import { ProcessCommonFileJob } from './jobs/process.common.file.job';
 import { SendForgetPasswordEmailJob } from './jobs/send.forget.password.email.job';
-import { StartBusinessChatSyncJob } from './jobs/start.business.chat.sync.job';
 import { SystemLanguageJob } from './jobs/system.language.job';
 import { VerifyEmailJob } from './jobs/verify.email.job';
 import { VerifyMobileJob } from './jobs/verify.mobile.job';
@@ -46,11 +45,10 @@ import { ProcessCommunicationList } from './libraries/process.communication.list
 import { ProcessConversationData } from './libraries/process.conversation.data';
 import { ProcessDbFind } from './libraries/process.db.find';
 import { ProcessTransformApiResponse } from './libraries/process.transform.api.response';
-import { BusinessMetaIntegrationService } from './services/business.meta.integration.service';
 import { BusinessService } from './services/business.service';
 import { Es6JobsService } from './services/es6.jobs.service';
+import { Es6Service } from './services/es6.service';
 import { FileUploadService } from './services/file.upload.service';
-import { IdentifierGeneratorService } from './services/identifier.generator.service';
 import { LocalSqsService } from './services/local.sqs.service';
 import { LoginService } from './services/login.service';
 import { MobileValidationService } from './services/mobile.validation.service';
@@ -106,7 +104,6 @@ const es6Classes = {
     LocalCommentJob,
     ProcessCommonFileJob,
     SendForgetPasswordEmailJob,
-    StartBusinessChatSyncJob,
     SystemLanguageJob,
     VerifyEmailJob,
     VerifyMobileJob,
@@ -122,11 +119,10 @@ const es6Classes = {
     ProcessTransformApiResponse,
   ],
   services: [
-    BusinessMetaIntegrationService,
     BusinessService,
     Es6JobsService,
+    Es6Service,
     FileUploadService,
-    IdentifierGeneratorService,
     LocalSqsService,
     LoginService,
     MobileValidationService,

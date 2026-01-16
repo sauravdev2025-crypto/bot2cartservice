@@ -1,3 +1,1 @@
-export enum SystemScriptTypeEnum {
-  WHATSAPP_TEMPLATE = 20,
-}
+export enum SystemScriptTypeEnum {}

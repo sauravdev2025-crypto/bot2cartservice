@@ -17,7 +17,6 @@ import { AppModule } from './app.module';
 import * as corsConfig from './config/cors.config';
 import rateLimiterConfig from './config/rate.limiter.config';
 import sentryConfig from './config/sentry.config';
-import { ExternalModule } from './external/external.module';
 
 // set stack trace limit to higher number
 Error.stackTraceLimit = 100;
@@ -57,30 +56,6 @@ async function bootstrap() {
 
   app.engine('hbs', hbs({ extname: 'hbs' }));
   app.setViewEngine('hbs');
-
-  const options = new DocumentBuilder()
-    .setTitle('✨ External Communication API Documentation ✨')
-    .setDescription(
-      'Comprehensive API documentation for managing external communication templates and messages. This API enables seamless integration with various communication channels, including WhatsApp template messaging and normal messaging capabilities. Explore the endpoints to send, manage, and track your external communications efficiently.'
-    )
-    .setVersion('1.0')
-    .addTag('v1')
-    .addGlobalParameters({ name: 'x-client-id', in: 'header', description: 'Client ID for authentication', required: true })
-    .addGlobalParameters({
-      name: 'x-client-secret',
-      in: 'header',
-      description: 'Client Secret for authentication',
-      required: true,
-    })
-    .build();
-
-  const documentFactory = SwaggerModule.createDocument(app, options, { include: [ExternalModule] });
-  SwaggerModule.setup('dart-collections', app, documentFactory, {
-    swaggerOptions: {
-      cache: false,
-      persistAuthorization: false,
-    },
-  });
 
   // starting the server on the defined port
   // Railway sets PORT environment variable, fallback to SERVER_PORT or 4000

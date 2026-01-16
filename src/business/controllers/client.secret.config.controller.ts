@@ -1,7 +1,6 @@
 import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { OperationException } from '@servicelabsco/nestjs-utility-services';
 import { AddApiAccountDto, ApiAccountEntity, BusinessParamDto } from '@servicelabsco/slabs-access-manager';
-import { ExternalApiLogEntity } from '../../external/entities/external.api.log.entity';
 import { CommunicationApiAccountEntity } from '../entities/communication.api.account.entity';
 import { ProcessApiAccountData } from '../libraries/process.api.account.data';
 import { BusinessAccessService } from '../services/business.access.service';
@@ -14,12 +13,6 @@ export class ClientSecretConfigController {
   async getAll() {
     const business = await this.businessAccessService.validateAccess();
     return CommunicationApiAccountEntity.find({ where: { business_id: business.id } });
-  }
-
-  @Get('logs')
-  async getLastLogs() {
-    const business = await this.businessAccessService.validateAccess();
-    return ExternalApiLogEntity.find({ where: { business_id: business.id }, take: 50, order: { created_at: 'DESC' }, relations: ['api_account'] });
   }
 
   @Post()

@@ -1,6 +1,5 @@
 import { CommonListFilterDto, ListingService, ListResponseDto } from '@servicelabsco/slabs-access-manager';
 import { ProcessCommunicationList } from '../../utility/libraries/process.communication.list';
-import { ActionDetailsListFilterDto } from '../dtos/action.details.list.filter.dto';
 import { BusinessEntity } from '../entities/business.entity';
 
 /**
@@ -12,7 +11,7 @@ export class ProcessPartnerAccountBusinessList extends ProcessCommunicationList 
   /**
    * the filter conditions setup by the end user
    * @protected
-   * @type {ActionDetailsListFilterDto}
+   * @type {CommonListFilterDto}
    * @memberof ProcessPartnerAccountBusinessList
    */
   protected filter: CommonListFilterDto;
@@ -42,7 +41,7 @@ export class ProcessPartnerAccountBusinessList extends ProcessCommunicationList 
    * @return {*}  {Promise<ListResponseDto>}
    * @memberof ProcessPartnerAccountBusinessList
    */
-  async process(filter: ActionDetailsListFilterDto): Promise<ListResponseDto> {
+  async process(filter: CommonListFilterDto): Promise<ListResponseDto> {
     this.filter = filter;
 
     // await this.initialize();

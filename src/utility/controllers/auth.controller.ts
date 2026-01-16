@@ -18,7 +18,6 @@ import { LoginPayloadDto } from '../dtos/login.payload.dto';
 import { SignupPayloadDto } from '../dtos/signup.payload.dto';
 import { CommunicationUserEntity } from '../entities/communication.user.entity';
 import { SendForgetPasswordEmailJob } from '../jobs/send.forget.password.email.job';
-import { BusinessMetaIntegrationService } from '../services/business.meta.integration.service';
 import { LoginService } from '../services/login.service';
 import { SignupService } from '../services/signup.service';
 
@@ -35,8 +34,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly mailValidationService: MailValidationService,
     private readonly sendForgetPasswordEmailJob: SendForgetPasswordEmailJob,
-    private readonly businessUserRoleService: BusinessUserRoleService,
-    private readonly businessMetaIntegrationService: BusinessMetaIntegrationService
+    private readonly businessUserRoleService: BusinessUserRoleService
   ) {}
 
   /**
@@ -142,12 +140,6 @@ export class AuthController {
     if (!user) return;
 
     return this.authService.revokeSession();
-  }
-
-  @Post('connect-client')
-  async connectClient(@Body() body: any) {
-    const business = await this.validateClient(body?.token);
-    return this.businessMetaIntegrationService.connectClient(body, business?.id);
   }
 
   @Post('validate-public-token')

@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import {
   AccessService,
-  CustomCrypt,
   PlatformUtility,
   PropertyService,
   QueueService,
@@ -11,21 +10,10 @@ import {
 } from '@servicelabsco/nestjs-utility-services';
 import { FileUploadService, LambdaService } from '@servicelabsco/slabs-access-manager';
 import { AppService } from './app.service';
-import { HandleFacebookApprovalJob } from './business/jobs/handle.facebook.approval.job';
-import { PollWebhookRelaySqsJob } from './business/jobs/poll.webhook.relay.sqs.job';
-import { PollWhatsappIncomingMessageJob } from './business/jobs/poll.whatsapp.incoming.message.job';
-import { SyncBusinessQualityHealthJob } from './business/jobs/sync.business.quality.health.job';
-import { FacebookInternalMessageService } from './business/services/facebook.internal.message.service';
+
 import { MessageGateway } from './business/services/message.gateway';
 import { WebhookService } from './business/services/webhook.service';
 import { BusinessParamDto } from './common/dtos/business.param.dto';
-import { WebhookEventsConstants } from './config/webhook.event.constants';
-import { BusinessMetaIntegrationService } from './utility/services/business.meta.integration.service';
-import { IdentifierGeneratorService } from './utility/services/identifier.generator.service';
-import { CommunicationWhatsappTemplateEntity } from './business/entities/communication.whatsapp.template.entity';
-import { TemplateUtil } from './common/template.util';
-import { CreateWhatsappBroadcastTemplateCsv } from './business/libraries/create.whatsapp.broadcast.template.csv';
-import { FacebookInternalTemplateService } from './business/services/facebook.internal.template.service';
 
 @Controller()
 export class AppController {
@@ -33,22 +21,14 @@ export class AppController {
     protected readonly appService: AppService,
     protected readonly queueService: QueueService,
     protected readonly refreshPropertyCacheJob: RefreshPropertyCacheJob,
-    protected readonly identifierGeneratorService: IdentifierGeneratorService,
-    protected readonly facebookInternalMessageService: FacebookInternalMessageService,
     protected readonly fileUploadService: FileUploadService,
     protected readonly syncAllCodeJob: SyncAllCodeJob,
-    protected readonly businessMetaIntegrationService: BusinessMetaIntegrationService,
-    protected readonly syncBusinessQualityHealthJob: SyncBusinessQualityHealthJob,
     protected readonly accessService: AccessService,
-    protected readonly handleFacebookApprovalJob: HandleFacebookApprovalJob,
     protected readonly lambdaService: LambdaService,
     protected readonly sqsService: SqsService,
     protected readonly webhookService: WebhookService,
     protected readonly propertyService: PropertyService,
-    protected readonly pollWebhookRelaySqsJob: PollWebhookRelaySqsJob,
-    protected readonly pollWhatsappIncomingMessageJob: PollWhatsappIncomingMessageJob,
-    protected readonly messageGateway: MessageGateway,
-    protected readonly facebookInternalTemplateService: FacebookInternalTemplateService
+    protected readonly messageGateway: MessageGateway
   ) {}
 
   @Get()
@@ -123,6 +103,6 @@ export class AppController {
 
   @Post('sets')
   async checkMedia(@Body() body: any) {
-    return this.pollWhatsappIncomingMessageJob.handle();
+    // return this.pollWhatsappIncomingMessageJob.handle();
   }
 }

@@ -22,8 +22,6 @@ import * as ormconfig from './config/typeorm.config';
 import { AccessModule, AccessUtilityModule, BusinessMiddleware } from '@servicelabsco/slabs-access-manager';
 import { CommandModule } from 'nestjs-command';
 import { BusinessModule } from './business/business.module';
-import { ExternalModule } from './external/external.module';
-import { ExternalAccessMiddlewareService } from './external/services/external.access.middleware.service';
 import { SocketModule } from './socket/socket.module';
 import { UtilityModule } from './utility/utility.module';
 import queueConfig = require('./config/queue.config');
@@ -44,7 +42,6 @@ import queueConfig = require('./config/queue.config');
     SystemModule,
     PlatformUtilityModule,
     AccessUtilityModule,
-    ExternalModule,
   ],
   controllers: [AppController, AdminAuthController],
   providers: [AppService, WorkerService, ShutdownService],
@@ -56,7 +53,5 @@ export class AppModule {
 
     consumer.apply(RestrictedMiddleware).forRoutes({ path: 'api/*', method: RequestMethod.ALL });
     consumer.apply(BusinessMiddleware).forRoutes({ path: 'api/b/*', method: RequestMethod.ALL });
-
-    consumer.apply(ExternalAccessMiddlewareService).forRoutes({ path: 'v1/*', method: RequestMethod.ALL });
   }
 }
