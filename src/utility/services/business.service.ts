@@ -46,30 +46,7 @@ export class BusinessService {
 
     await business.save();
 
-    const bu = await this.setBusinessUser(business.id, user.id);
-    const ownerRole = await this.setUserRole(bu.id, 1);
-
     return this.loginService.getUserLoginPayload(user, req, { business_id: business.id });
-  }
-
-  async resetBusinessInfo(business_id: number, attributes: any = {}) {
-    const business = await BusinessEntity.first(business_id);
-    if (!business) return;
-
-    business.internal_access_token = null;
-    business.internal_number = null;
-    business.internal_id = null;
-    business.phone_registered_at = null;
-    business.wa_display_name = null;
-    business.default_mobile = null;
-    business.last_health_status = null;
-    business.total_message_limit = null;
-    business.total_sent = null;
-    business.quality_response = null;
-
-    business.attributes = { ...business?.attributes, ...attributes };
-
-    return business.save();
   }
 
   async setUserRole(buId: number, role_id: number = 1) {

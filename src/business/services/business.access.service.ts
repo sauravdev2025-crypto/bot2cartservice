@@ -19,7 +19,7 @@ export class BusinessAccessService {
    * @returns {Promise<BusinessEntity>} The active business entity associated with the user.
    * @throws {AccessException} If the user does not have a business ID or if the business is not found or inactive.
    */
-  async validateAccess(validateInternalAccessToken: boolean = false): Promise<BusinessEntity> {
+  async validateAccess(): Promise<BusinessEntity> {
     const user = Auth.user();
 
     const businessId = user?.auth_attributes?.business_id;
@@ -29,8 +29,6 @@ export class BusinessAccessService {
       where: { id: businessId, active: true },
     });
     if (!business) throw new AccessException();
-
-    if (validateInternalAccessToken && !business?.internal_access_token) throw new AccessException('Log into facebook to access this');
 
     return business;
   }
@@ -78,12 +76,6 @@ export class BusinessAccessService {
   async getInternalProperties(id: number) {
     const business = await BusinessEntity.first(id);
     if (!business) return;
-    return { internal_id: business.internal_id, access_token: business.internal_access_token, internal_number: business.internal_number, business };
-  }
-
-  async getBusinessFromIdentifier(internal_id: string): Promise<BusinessEntity> {
-    const business = await BusinessEntity.findOne({ where: { internal_id } });
-    if (!business) return;
-    return business;
+    return { business };
   }
 }
