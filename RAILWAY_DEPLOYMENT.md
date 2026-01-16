@@ -45,6 +45,24 @@ This guide will help you deploy this NestJS application to Railway.
    - `NODE_ENV` - Set to "production"
    - `BULL_QUEUE_NAME` - Bull queue name
 
+   **Google Service Account (for FCM):**
+   - `GOOGLE_SERVICE_ACCOUNT_JSON` - The entire contents of your `dartinbox-f9514-21057035628e.json` file as a **single-line JSON string**.
+
+     **How to set this:**
+     1. Open your `dartinbox-f9514-21057035628e.json` file
+     2. Copy the entire JSON content
+     3. Convert it to a single line (remove all line breaks and extra spaces, or use `JSON.stringify()`)
+     4. Paste it as the value for `GOOGLE_SERVICE_ACCOUNT_JSON` in Railway's environment variables
+
+     **Quick command to get the value:**
+
+     ```bash
+     # On your local machine, run this to get the single-line JSON:
+     cat dartinbox-f9514-21057035628e.json | jq -c .
+     ```
+
+     Or simply copy the file content and remove line breaks manually. The JSON should be valid when parsed.
+
    **Optional:**
    - `SENTRY_DSN` - Sentry DSN for error tracking
    - `SERVER_COOL_DOWN_PERIOD` - Server cooldown period in seconds

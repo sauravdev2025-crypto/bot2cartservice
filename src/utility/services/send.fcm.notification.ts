@@ -3,7 +3,21 @@ import { FcmTokenEntity, NotificationPayloadDto } from '@servicelabsco/slabs-acc
 import { JWT } from 'google-auth-library';
 import { LocalSqsService } from './local.sqs.service';
 import console = require('console');
-const serviceAccount = require('../../../dartinbox-f9514-21057035628e.json');
+
+// Load service account from environment variable (for Railway/production) or file (for local dev)
+let serviceAccount: any;
+if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+  // Load from environment variable (Railway/production)
+  serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+} else {
+  // Fall back to file (local development)
+  try {
+    serviceAccount = require('../../../dartinbox-f9514-21057035628e.json');
+  } catch (error) {
+    console.warn('Warning: Could not load service account file. Set GOOGLE_SERVICE_ACCOUNT_JSON environment variable.');
+    serviceAccount = null;
+  }
+}
 
 /**
  *
@@ -99,6 +113,10 @@ export class SendFcmNotification {
 
   async getTokenFromTheGoogle() {
     try {
+      if (!serviceAccount) {
+        throw new Error('Service account credentials not available. Set GOOGLE_SERVICE_ACCOUNT_JSON environment variable.');
+      }
+
       // Create a JWT client
       const client = new JWT({
         email: serviceAccount.client_email,
@@ -111,6 +129,7 @@ export class SendFcmNotification {
       return accessToken;
     } catch (error) {
       console.error('Error getting access token:', error);
+      throw error;
     }
   }
 }

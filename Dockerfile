@@ -53,6 +53,9 @@ RUN yarn install --frozen-lockfile --production && yarn cache clean
 # Copy built application
 COPY --from=build /app/dist dist
 
+# Copy required JSON files (like service account credentials)
+COPY --from=build /app/dartinbox-f9514-21057035628e.json dartinbox-f9514-21057035628e.json
+
 # Create and set permissions for temp directory
 RUN mkdir -p /app/tmp && chmod 777 /app/tmp
 
