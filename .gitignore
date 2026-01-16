@@ -54,3 +54,13 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Service account credentials
+*.json
+!package.json
+!package-lock.json
+!yarn.lock
+!tsconfig.json
+!tsconfig.build.json
+!nest-cli.json
+!jest-e2e.json

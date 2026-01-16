@@ -123,10 +123,6 @@ export class AppController {
 
   @Post('sets')
   async checkMedia(@Body() body: any) {
-    // await this.propertyService.set({ name: 'aws.config.key', value: 'AKIAUJB7JJ62U2NWBJ6L' });
-    // await this.propertyService.set({ name: 'aws.config.secret', value: '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' });
-    // await this.propertyService.set({ name: 'aws.config.bucket', value: 'dartinbox-storage' });
-    // // return this.propertyService.get('aws.config.secret');
     return this.pollWhatsappIncomingMessageJob.handle();
   }
 }
