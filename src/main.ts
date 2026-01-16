@@ -83,6 +83,8 @@ async function bootstrap() {
   });
 
   // starting the server on the defined port
-  await app.listen(process.env.SERVER_PORT || 4000);
+  // Railway sets PORT environment variable, fallback to SERVER_PORT or 4000
+  const port = process.env.PORT || process.env.SERVER_PORT || 4000;
+  await app.listen(port);
 }
 bootstrap();

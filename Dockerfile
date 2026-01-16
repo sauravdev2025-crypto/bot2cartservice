@@ -14,8 +14,8 @@ ENV NODE_ENV production
 # Copy package.json and yarn.lock first for caching
 COPY package.json yarn.lock ./
 
-# Install only production dependencies
-RUN yarn install --frozen-lockfile --production
+# Install all dependencies (including dev dependencies for build)
+RUN yarn install --frozen-lockfile
 
 # Copy source code
 COPY . .
@@ -43,13 +43,24 @@ WORKDIR /app
 ENV NODE_ENV production
 ENV CLI_PATH './dist/cli.js'
 
-# Copy only the necessary files from the build stage
-COPY --from=build /app/dist dist
-COPY --from=build /app/node_modules node_modules
+# Copy package files for production dependency installation
 COPY --from=build /app/package.json package.json
+COPY --from=build /app/yarn.lock yarn.lock
+
+# Install only production dependencies
+RUN yarn install --frozen-lockfile --production && yarn cache clean
+
+# Copy built application
+COPY --from=build /app/dist dist
 
 # Create and set permissions for temp directory
 RUN mkdir -p /app/tmp && chmod 777 /app/tmp
 
+# Expose port (Railway will set PORT env var)
+EXPOSE 4000
+
 # Set Docker as non-root user
 USER node
+
+# Start the application
+CMD ["node", "dist/main.js"]
