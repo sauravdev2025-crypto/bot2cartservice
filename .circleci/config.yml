@@ -1,0 +1,33 @@
+version: 2.1 # 2.1 config required to use orbs
+
+orbs:
+  docker: circleci/docker@3.0.1
+
+jobs:
+  build-and-push-dockerhub:
+    executor: docker/docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Login to DockerHub
+          command: echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+      - docker/build:
+          image: ${DOCKER_USERNAME}/sl-communication-services
+          tag: ${CIRCLE_SHA1},${CIRCLE_BRANCH}
+      - docker/push:
+          image: ${DOCKER_USERNAME}/sl-communication-services
+          tag: ${CIRCLE_SHA1},${CIRCLE_BRANCH}
+
+workflows:
+  build-and-deploy:
+    jobs:
+      # DockerHub build and push
+      - build-and-push-dockerhub:
+          context:
+            - FN-DOCKERHUB
+          filters:
+            branches:
+              only:
+                - production

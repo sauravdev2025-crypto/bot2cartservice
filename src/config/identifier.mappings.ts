@@ -1,0 +1,3 @@
+const IdentifierMappings = {};
+
+export = IdentifierMappings;
