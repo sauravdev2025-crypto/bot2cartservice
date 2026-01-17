@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import {
   AccessService,
+  Hash,
   PlatformUtility,
   PropertyService,
   QueueService,
@@ -103,6 +104,7 @@ export class AppController {
 
   @Post('sets')
   async checkMedia(@Body() body: any) {
+    // return Hash.hash('123456');
     // return this.pollWhatsappIncomingMessageJob.handle();
   }
 }

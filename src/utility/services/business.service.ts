@@ -46,6 +46,9 @@ export class BusinessService {
 
     await business.save();
 
+    const bu = await this.setBusinessUser(business.id, user.id);
+    // await this.setUserRole(bu.id, 1);
+
     return this.loginService.getUserLoginPayload(user, req, { business_id: business.id });
   }
 

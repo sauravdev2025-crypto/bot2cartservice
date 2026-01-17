@@ -51,7 +51,6 @@ export class LoginService {
    */
   async getUserLoginPayload(user: CommunicationUserEntity, req: Request, attributes?: any): Promise<LoginResponseDto> {
     const response: LoginResponseDto = {};
-
     const businesses: any = await this.businessUserService.getBusinesses(user.id);
 
     const invitations: any = await BusinessUserInvitationEntity.find({
