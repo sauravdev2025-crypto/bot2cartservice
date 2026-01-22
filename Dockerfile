@@ -14,8 +14,12 @@ ENV NODE_ENV production
 # Copy package.json and yarn.lock first for caching
 COPY package.json yarn.lock ./
 
-# Install all dependencies (including dev dependencies for build)
-RUN yarn install --frozen-lockfile
+# Install all dependencies (including dev dependencies for build) with retry logic
+RUN yarn config set network-timeout 300000 && \
+    yarn config set network-concurrency 1 && \
+    yarn install --frozen-lockfile --network-timeout 300000 || \
+    (sleep 5 && yarn install --frozen-lockfile --network-timeout 300000) || \
+    (sleep 10 && yarn install --frozen-lockfile --network-timeout 300000)
 
 # Copy source code
 COPY . .
@@ -47,8 +51,13 @@ ENV CLI_PATH './dist/cli.js'
 COPY --from=build /app/package.json package.json
 COPY --from=build /app/yarn.lock yarn.lock
 
-# Install only production dependencies
-RUN yarn install --frozen-lockfile --production && yarn cache clean
+# Install only production dependencies with retry logic
+RUN yarn config set network-timeout 300000 && \
+    yarn config set network-concurrency 1 && \
+    yarn install --frozen-lockfile --production --network-timeout 300000 || \
+    (sleep 5 && yarn install --frozen-lockfile --production --network-timeout 300000) || \
+    (sleep 10 && yarn install --frozen-lockfile --production --network-timeout 300000) && \
+    yarn cache clean
 
 # Copy built application
 COPY --from=build /app/dist dist
