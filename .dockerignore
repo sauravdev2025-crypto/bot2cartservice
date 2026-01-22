@@ -2,16 +2,19 @@
 node_modules
 npm-debug.log
 yarn-error.log
+package-lock.json
 
-# Build outputs
+# Build outputs (will be generated during build)
 dist
 coverage
+build
 *.log
 
 # Environment files
 .env
 .env.local
 .env.*.local
+.env.*.backup
 
 # IDE
 .vscode
@@ -19,24 +22,49 @@ coverage
 *.swp
 *.swo
 *~
+.project
+.classpath
+.settings
+.c9
 
 # OS
 .DS_Store
 Thumbs.db
+*.pid
+*.seed
+*.pid.lock
 
 # Git
 .git
 .gitignore
+.gitattributes
 
 # Test files
 test
 *.spec.ts
 *.test.ts
+jest.config.js
+coverage
 
 # Documentation
 README.md
 *.md
+docs
+
+# CI/CD
+.circleci
+.github
+.gitlab-ci.yml
+.travis.yml
 
 # Misc
 .nyc_output
 .cache
+.temp
+.tmp
+
+# Service account credentials and other sensitive JSON files
+# (Keep package.json, yarn.lock, tsconfig files - they're needed for build)
+service-account*.json
+credentials*.json
+*.key.json
